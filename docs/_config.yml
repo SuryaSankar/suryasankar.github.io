@@ -33,6 +33,7 @@ github_username:  SuryaSankar
 theme: minima
 plugins:
   - jekyll-feed
+  - jekyll-gist
 
 # Exclude from processing.
 # The following items will not be processed, by default.

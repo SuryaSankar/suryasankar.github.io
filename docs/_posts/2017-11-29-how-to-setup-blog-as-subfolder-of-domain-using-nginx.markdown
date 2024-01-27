@@ -24,7 +24,7 @@ location /blogs/printing/ {
 
 Now https://inkmonk.com/blogs/printing/ was showing the contents of blog.inkmonk.com as expected. But the job was not done yet. There were still a few problems
 
-###Problem 1 - Links were still pointing to blog.inkmonk.com
+### Problem 1 - Links were still pointing to blog.inkmonk.com
  All the links in the content were still pointing to blog.inkmonk.com. The problem of course was that the wordpress blog was still configured to use that as the site url. The wp-config.php in the wordpress installation had to be edited to comment out the values of 2 entries and replace them with the new urls
 
 ```
@@ -36,7 +36,7 @@ define('WP_SITEURL', 'https://inkmonk.com/blogs/printing/'); define('WP_HOME', '
 
 This solved the links problem. Now all the links in the blog were using the new urls.
 
-###Problem 2 - Mixed content problem due to SSL
+### Problem 2 - Mixed content problem due to SSL
 Our main domain uses SSL. But the wordpress blog was not on SSL. This caused a problem with stylesheets and scripts not being downloaded. Took me a while to realize that this was the issue. Once found, the solution was simple. Just change the nginx proxy pass conf to use https. And the url was changed to use the IP address of the instance instead of blog.inkmonk.com as well
 
 ```
@@ -45,7 +45,7 @@ location /blogs/printing/ {
 }
 ```
 
-###Problem 3 - Wp-admin and Wp-login not working properly
+### Problem 3 - Wp-admin and Wp-login not working properly
  There was still one more problem. Whenever a form was submitted in the wp-admin dashboard, the url was changing to inkmonk.com/wp-admin.php instead of inkmonk.com/blogs/printing/wp-admin.php. Login form also had similar issues. This was a headache. Finally I realized that the problem was that the wordpress installation was mounted at the DocumentRoot of the Apache server in the bitnami instance. It had to be aliased to a subfolder /blogs/printing mirroring the url structure.
  This was done by changing the httpd-prefix.conf inside the conf folder in the bitnami wordpress app. The existing DocumentRoot line had to be commented out and 2 aliases had to be added
 
